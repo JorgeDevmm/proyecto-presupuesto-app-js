@@ -1,0 +1,55 @@
+body {
+  background: #2e2e2e; /* fallback for old browsers */
+
+}
+header {
+  margin: 30px 0;
+}
+.contenido {
+  padding: 20px;
+}
+.contenido-principal {
+  background-color: #232323;
+  padding: 30px;
+  border-radius: 20px;
+  color: #c5c5c5;
+  font-weight: bold;
+}
+.primario{
+    background-color: #2A2A2A;
+    padding: 30px;
+      border-radius: 20px;
+}
+.presupuesto p {
+  margin-bottom: 0;
+  font-weight: bold;
+}
+.presupuesto p span {
+  font-weight: normal;
+}
+
+.alert-presupuesto{
+    background-color:#89C6E6 ;
+    
+}
+.alert-restante{
+    background-color: #F57473;
+}
+#gastos {
+  margin-bottom: 30px;
+}
+h1 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 100;
+
+  color: #c5c5c5;
+  font-weight: bold;
+}
+h2 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 100;
+  color: #c5c5c5;
+  font-weight: bold;
+  font-size: 22px;
+  margin-bottom: 30px;
+}
