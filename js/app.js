@@ -10,6 +10,22 @@ function eventListeners() {
 }
 
 // Classes
+class Presupuesto {
+  constructor(presupuesto) {
+    // valor ingresado lo considere como numero
+    this.presupuesto = Number(presupuesto);
+    this.restante = Number(presupuesto);
+    this.gastos = [];
+  }
+}
+
+class InterfasUsuario {}
+
+
+
+// Instanciar
+const interfasUsuario = new InterfasUsuario();
+let presupuesto;
 
 // Funciones
 
@@ -25,4 +41,8 @@ function preguntarPresupuesto() {
     //se recargar la pagina, cuando damos cancelar o campo vacio aceptar
     window.location.reload();
   }
+
+  // Presupuesto valido
+  presupuesto = new Presupuesto(presupuestoUsuario);
+  console.log(presupuesto.presupuesto);
 }
