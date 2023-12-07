@@ -19,9 +19,17 @@ class Presupuesto {
   }
 }
 
-class InterfasUsuario {}
+class InterfasUsuario {
+  // crear html de insertarPresupuesto
+  insertarPresupuesto(objPresupuesto) {
+    // destructuramos el objeto presupuesto
+    const { presupuesto, restante } = objPresupuesto;
 
-
+    //agregar los valores destructurados al contenido de la referencia
+    document.querySelector('#total').textContent = presupuesto;
+    document.querySelector('#restante').textContent = restante;
+  }
+}
 
 // Instanciar
 const interfasUsuario = new InterfasUsuario();
@@ -30,8 +38,10 @@ let presupuesto;
 // Funciones
 
 function preguntarPresupuesto() {
+  // valor que daremos al atributo del objeto presupuesto
   const presupuestoUsuario = prompt('Cual es tu presupuesto');
 
+  // validación
   if (
     presupuestoUsuario === '' ||
     presupuestoUsuario === null ||
@@ -44,5 +54,8 @@ function preguntarPresupuesto() {
 
   // Presupuesto valido
   presupuesto = new Presupuesto(presupuestoUsuario);
-  console.log(presupuesto.presupuesto);
+  console.log(presupuesto);
+
+  // crear html
+  interfasUsuario.insertarPresupuesto(presupuesto);
 }
