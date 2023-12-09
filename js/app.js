@@ -118,8 +118,32 @@ class InterfasUsuario {
     }
   }
 
+  // actulizar el monto restante del html
   actualizarRestante(restante) {
     document.querySelector('#restante').textContent = restante;
+  }
+
+  // comprueba la validación visual cuando restamos el presupuesto
+  comprobarPresupuesto(presupuestoObj) {
+    // destructuramos
+    const { presupuesto, restante } = presupuestoObj;
+    const restanteDiv = document.querySelector('.restante');
+
+    // 100 - 50
+    if (presupuesto / 4 > restante) {
+      restanteDiv.classList.remove('alert-restante', 'alert-warning');
+      restanteDiv.classList.add('alert-danger');
+    } else if (presupuesto / 2 > restante) {
+      restanteDiv.classList.remove('alert-restante', 'alert-danger');
+      restanteDiv.classList.add('alert-warning');
+    }
+
+    // si el total es 0 o menor
+    if (restante <= 0) {
+      interfasUsuario.imprimirAlerta('El presupuesto se ha agotado', 'error');
+      // deshabilitar button
+      formulario.querySelector("button[type='submit']").disabled = true;
+    }
   }
 }
 
@@ -189,6 +213,9 @@ function agregarGasto(e) {
 
   // Actualizar restante del html
   interfasUsuario.actualizarRestante(restante);
+
+  // comprobamos el objeto presupuesto para validarlo visualmente en restante
+  interfasUsuario.comprobarPresupuesto(presupuesto);
 
   // resetear formulario
   formulario.reset();
