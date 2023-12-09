@@ -22,6 +22,19 @@ class Presupuesto {
 
   nuevoGasto(objGasto) {
     this.gastos = [...this.gastos, objGasto];
+    this.calcularRestante();
+  }
+
+  calcularRestante() {
+    // iterar sobre el arreglo de gastos y definir cuanto hemos gastado
+    const gastado = this.gastos.reduce(
+      (total, gasto) => total + gasto.cantidad,
+      0
+    );
+
+    this.restante = this.presupuesto - gastado;
+
+    console.log(this.restante);
   }
 }
 
@@ -52,6 +65,13 @@ class InterfasUsuario {
     // asignar el cotenido del mensaje al content delhtml
     divMensaje.textContent = mensaje;
 
+    // Verificar si ya hay una alerta presente, mediante la referencia de la clase alert
+    const alertaExistente = document.querySelector('.primario .alert');
+    if (alertaExistente) {
+      // Si ya hay una alerta, no agregamos otra
+      alertaExistente.remove();
+    }
+
     // Insertamos en el html
     document.querySelector('.primario').insertBefore(divMensaje, formulario);
 
@@ -76,7 +96,7 @@ class InterfasUsuario {
       nuevoGasto.dataset.id = id;
 
       // Agregar el HTML del gasto
-      nuevoGasto.innerHTML = `${nombre} <span class="badge badge-primary badge-pill"> ${cantidad} </span>`;
+      nuevoGasto.innerHTML = `${nombre} <span class="badge badge-primary badge-pill"> $ ${cantidad} </span>`;
 
       // boton para borrar el gasto
       const btnBorrar = document.createElement('button');
@@ -96,6 +116,10 @@ class InterfasUsuario {
       // eliminar un hijo por el primero
       referencia.removeChild(referencia.firstChild);
     }
+  }
+
+  actualizarRestante(restante) {
+    document.querySelector('#restante').textContent = restante;
   }
 }
 
@@ -158,10 +182,13 @@ function agregarGasto(e) {
   interfasUsuario.imprimirAlerta('Gasto agregado Correctamente');
 
   // destructurar presupuesto el arreglo de gastos
-  const { gastos } = presupuesto;
+  const { gastos, restante } = presupuesto;
 
   //Imprimir los gastos
   interfasUsuario.agregarGastolista(gastos);
+
+  // Actualizar restante del html
+  interfasUsuario.actualizarRestante(restante);
 
   // resetear formulario
   formulario.reset();
