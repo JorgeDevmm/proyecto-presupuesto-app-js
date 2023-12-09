@@ -33,8 +33,12 @@ class Presupuesto {
     );
 
     this.restante = this.presupuesto - gastado;
+  }
 
-    console.log(this.restante);
+  eliminarGasto(id) {
+    // devuelve en el arreglo la diferencia sin contar el id del parametro
+    this.gastos = this.gastos.filter((gasto) => gasto.id !== id);
+    this.calcularRestante();
   }
 }
 
@@ -81,7 +85,7 @@ class InterfasUsuario {
     }, 3000);
   }
 
-  agregarGastolista(arregloGastos) {
+  mostrarGastos(arregloGastos) {
     this.limpiarHtml(listaGastos);
 
     // Iterar sobre los gastos
@@ -102,6 +106,9 @@ class InterfasUsuario {
       const btnBorrar = document.createElement('button');
       btnBorrar.classList.add('btn', 'btn-danger', 'borrar-gasto');
       btnBorrar.innerHTML = 'Borrar &times'; //inner cuando usamos entidad &times
+      btnBorrar.onclick = () => {
+        eliminarGasto(id);
+      };
       nuevoGasto.appendChild(btnBorrar);
 
       // Agregar al HTML
@@ -136,7 +143,11 @@ class InterfasUsuario {
     } else if (presupuesto / 2 > restante) {
       restanteDiv.classList.remove('alert-restante', 'alert-danger');
       restanteDiv.classList.add('alert-warning');
+    } else {
+      restanteDiv.classList.remove('alert-danger', 'alert-warning');
+      restanteDiv.classList.add('alert-restante');
     }
+
 
     // si el total es 0 o menor
     if (restante <= 0) {
@@ -208,8 +219,8 @@ function agregarGasto(e) {
   // destructurar presupuesto el arreglo de gastos
   const { gastos, restante } = presupuesto;
 
-  //Imprimir los gastos
-  interfasUsuario.agregarGastolista(gastos);
+  // mostramos los gastos acutlizados
+  interfasUsuario.mostrarGastos(gastos);
 
   // Actualizar restante del html
   interfasUsuario.actualizarRestante(restante);
@@ -219,4 +230,20 @@ function agregarGasto(e) {
 
   // resetear formulario
   formulario.reset();
+}
+
+function eliminarGasto(id) {
+  // Elimina del objeto
+  presupuesto.eliminarGasto(id);
+
+  // Elimina los gastos del html
+  // destructurando array gastos del objeto presupuesto
+  const { gastos,restante } = presupuesto;
+  interfasUsuario.mostrarGastos(gastos);
+
+  // Actualizar restante del html
+  interfasUsuario.actualizarRestante(restante);
+
+  // comprobamos el objeto presupuesto para validarlo visualmente en restante
+  interfasUsuario.comprobarPresupuesto(presupuesto);
 }
