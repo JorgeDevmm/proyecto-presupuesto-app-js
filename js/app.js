@@ -19,6 +19,12 @@ class Presupuesto {
     this.restante = Number(presupuesto);
     this.gastos = [];
   }
+
+  nuevoGasto(objGasto) {
+    this.gastos = [...this.gastos,objGasto]
+
+    console.log(this.gastos);
+  }
 }
 
 class InterfasUsuario {
@@ -90,10 +96,12 @@ function preguntarPresupuesto() {
 function agregarGasto(e) {
   e.preventDefault();
 
-  const gasto = document.querySelector('#gasto').value;
-  const cantidad = document.querySelector('#cantidad').value;
+  // leer los datos del formulario
+  const nombre = document.querySelector('#gasto').value;
+  const cantidad = Number(document.querySelector('#cantidad').value);
 
-  if (gasto === '' || cantidad === '') {
+  // validar vacios y diferente a valores numericos y menor a cero
+  if (nombre === '' || cantidad === '') {
     interfasUsuario.imprimirAlerta('Ambos son obligatorios', 'error');
     return;
   } else if (cantidad <= 0 || isNaN(cantidad)) {
@@ -101,5 +109,19 @@ function agregarGasto(e) {
     return;
   }
 
-  console.log(`Agregando gasto`);
+  // Generar un objeto literal con el gasto
+  const gasto = {
+    nombre,
+    cantidad,
+    id: Date.now(), //valor id de tipo fecha segundos
+  };
+
+  // añade un nuevo gasto
+  presupuesto.nuevoGasto(gasto);
+
+  //mostrar alerta de gasto agregado
+  interfasUsuario.imprimirAlerta("Gasto agregado Correctamente");
+
+  // resetear formulario
+  formulario.reset();
 }
